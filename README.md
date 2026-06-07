@@ -26,101 +26,85 @@ Just type `bolt add fmt` and Bolt:
 - nlohmann-json
 
 ### Arch Linux
-\```bash
+
 sudo pacman -S cmake git curl nlohmann-json
-\```
+
 
 ### Ubuntu/Debian
-\```bash
+
 sudo apt install cmake git libcurl4-openssl-dev nlohmann-json3-dev
-\```
+
 
 ### Build from source
-\```bash
+
 git clone https://github.com/Cronobi/bolt
+
 cd bolt
+
 mkdir build && cd build
+
 cmake ..
+
 make
+
 sudo cp Bolt /usr/local/bin/bolt
-\```
+
+
 
 ---
 
 ## Usage
 
 ### Add a package
-\```bash
+
+
 bolt add fmt
-\```
+
+
 Searches GitHub for fmt, shows results, lets you pick one, downloads and injects into your build file.
 
 ### Remove a package
-\```bash
+
+
 bolt remove fmt
-\```
+
+
 Deletes the package folder, removes from CMakeLists.txt and bolt.toml.
 
 ### Search for a package
-\```bash
+
+
 bolt search json
-\```
+
+
 Shows matching C++ libraries from GitHub without installing.
 
 ### Install all dependencies
-\```bash
+
+
 bolt install
-\```
+
+
 Reads bolt.toml and reinstalls all dependencies. Useful when cloning a project that uses Bolt.
 
 ### Help
-\```bash
+
+
 bolt -h
-\```
 
----
-
-## How it works
-
-\```
-bolt add fmt
-    ↓
-searches GitHub API for "fmt" C++ libraries
-    ↓
-shows results to user
-    ↓
-user picks a number
-    ↓
-downloads into bolt_packages/
-    ↓
-injects into CMakeLists.txt or meson.build
-    ↓
-saves to bolt.toml
-\```
-
----
-
-## Project structure
-
-\```
-your-project/
-├── CMakeLists.txt        ← bolt injects here automatically
-├── bolt.toml             ← dependency list
-├── bolt_packages/        ← downloaded libraries
-│   └── fmt/
-└── src/
-    └── main.cpp
-\```
 
 ---
 
 ## bolt.toml format
 
-\```toml
+
 [dependencies]
+
 fmt = "https://github.com/fmtlib/fmt.git"
+
 nlohmann-json = "https://github.com/nlohmann/json.git"
-\```
+
+
 
 ---
 
