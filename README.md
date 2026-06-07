@@ -1,13 +1,160 @@
 # Bolt ⚡
-A fast C++ package manager that searches GitHub and auto-injects into CMake/Meson.
+> A fast, simple C++ package manager that finds libraries on GitHub and automatically integrates them into your CMake or Meson project.
+
+---
+
+## What is Bolt?
+
+Managing dependencies in C++ has always been painful. No standard package manager, manual CMake editing, and hours wasted on setup.
+
+Bolt fixes that.
+
+Just type `bolt add fmt` and Bolt:
+- Searches GitHub for the library
+- Downloads it into your project
+- Automatically edits your CMakeLists.txt or meson.build
+- Saves it to bolt.toml for future installs
+
+---
+
+## Installation
+
+### Requirements
+- CMake 3.15+
+- Git
+- libcurl
+- nlohmann-json
+
+### Arch Linux
+\```bash
+sudo pacman -S cmake git curl nlohmann-json
+\```
+
+### Ubuntu/Debian
+\```bash
+sudo apt install cmake git libcurl4-openssl-dev nlohmann-json3-dev
+\```
+
+### Build from source
+\```bash
+git clone https://github.com/Cronobi/bolt
+cd bolt
+mkdir build && cd build
+cmake ..
+make
+sudo cp Bolt /usr/local/bin/bolt
+\```
+
+---
 
 ## Usage
-bolt add "package"
 
-bolt remove "package"
+### Add a package
+\```bash
+bolt add fmt
+\```
+Searches GitHub for fmt, shows results, lets you pick one, downloads and injects into your build file.
 
-bolt search "package"
+### Remove a package
+\```bash
+bolt remove fmt
+\```
+Deletes the package folder, removes from CMakeLists.txt and bolt.toml.
 
+### Search for a package
+\```bash
+bolt search json
+\```
+Shows matching C++ libraries from GitHub without installing.
+
+### Install all dependencies
+\```bash
 bolt install
+\```
+Reads bolt.toml and reinstalls all dependencies. Useful when cloning a project that uses Bolt.
 
+### Help
+\```bash
 bolt -h
+\```
+
+---
+
+## How it works
+
+\```
+bolt add fmt
+    ↓
+searches GitHub API for "fmt" C++ libraries
+    ↓
+shows results to user
+    ↓
+user picks a number
+    ↓
+downloads into bolt_packages/
+    ↓
+injects into CMakeLists.txt or meson.build
+    ↓
+saves to bolt.toml
+\```
+
+---
+
+## Project structure
+
+\```
+your-project/
+├── CMakeLists.txt        ← bolt injects here automatically
+├── bolt.toml             ← dependency list
+├── bolt_packages/        ← downloaded libraries
+│   └── fmt/
+└── src/
+    └── main.cpp
+\```
+
+---
+
+## bolt.toml format
+
+\```toml
+[dependencies]
+fmt = "https://github.com/fmtlib/fmt.git"
+nlohmann-json = "https://github.com/nlohmann/json.git"
+\```
+
+---
+
+## Roadmap
+
+- [x] Search GitHub for C++ libraries
+- [x] Download and install packages
+- [x] Auto inject into CMakeLists.txt
+- [x] Auto inject into meson.build
+- [x] bolt.toml manifest
+- [x] bolt install from manifest
+- [x] bolt remove
+- [ ] Dependency resolver
+- [ ] Version tracking
+- [ ] bolt update
+- [ ] Private GitHub repo support
+
+---
+
+## Built with
+
+- C++17
+- libcurl — HTTP requests
+- nlohmann/json — JSON parsing
+- GitHub Search API
+
+---
+
+## Author
+
+**Jayadev** — [@Cronobi](https://github.com/Cronobi)
+
+---
+
+## License
+
+MIT License — free to use, modify, and distribute.
